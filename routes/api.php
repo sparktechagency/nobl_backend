@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\Backend\CategoryController;
 use App\Http\Controllers\api\Backend\PageController;
+use App\Http\Controllers\api\Backend\PhotoLibraryController;
 use App\Http\Controllers\api\Backend\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::resource('pages', PageController::class)->only(['index', 'store']);
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('photos', PhotoLibraryController::class);
 });
 
 // user routes
