@@ -15,8 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('address')->nullable();
+            $table->string('photo')->default('default_photo.png');
+            $table->string('badge_number')->nullable();
+            $table->enum('role', ['ADMIN', 'USER'])->default('USER');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('otp')->nullable()->unique();
+            $table->string('otp_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
