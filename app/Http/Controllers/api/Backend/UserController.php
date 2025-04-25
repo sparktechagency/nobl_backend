@@ -106,7 +106,7 @@ class UserController extends Controller
                 'data'    => $user,
             ]);
         } catch (Exception $e) {
-            Log::error('User delete user: ' . $e->getMessage());
+            Log::error('User delete error: ' . $e->getMessage());
             return response()->json([
                 'status'  => false,
                 'message' => 'User not found',
