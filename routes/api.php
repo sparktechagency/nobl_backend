@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\Backend\CategoryController;
+use App\Http\Controllers\api\Backend\DashboardController;
+use App\Http\Controllers\api\Backend\DocumentController;
+use App\Http\Controllers\api\Backend\LinkController;
 use App\Http\Controllers\api\Backend\PageController;
 use App\Http\Controllers\api\Backend\PhotoLibraryController;
 use App\Http\Controllers\api\Backend\UserController;
@@ -24,15 +27,20 @@ Route::prefix('auth')->group(function () {
 // admin routes
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('get-category', [CategoryController::class, 'getCategory']);
-
+    Route::get('dashboard', DashboardController::class);
     Route::resource('pages', PageController::class)->only(['index', 'store']);
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('photos', PhotoLibraryController::class);
     Route::resource('videos', VideoController::class);
+    Route::resource('documents', DocumentController::class);
+    Route::resource('links', LinkController::class);
 });
 
 // user routes
 Route::middleware(['auth:sanctum', 'user'])->group(function () {
     Route::resource('pages', PageController::class)->only('index');
 });
+
+// app open count
+Route::get('app-open-count', [AuthController::class, 'appOpenCount']);

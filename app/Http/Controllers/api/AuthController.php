@@ -3,6 +3,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\OtpMail;
+use App\Models\AppOpenCount;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -221,6 +222,18 @@ class AuthController extends Controller
             'status'  => true,
             'message' => 'Profile updated successfully',
             'data'    => $user,
+        ]);
+    }
+
+    public function appOpenCount()
+    {
+        $open = AppOpenCount::create([
+            'count' => 1,
+        ]);
+        return response()->json([
+            'status'  => true,
+            'message' => 'New device opened the app',
+            'data'    => $open,
         ]);
     }
 }
