@@ -5,6 +5,7 @@ use App\Http\Controllers\api\Backend\CategoryController;
 use App\Http\Controllers\api\Backend\PageController;
 use App\Http\Controllers\api\Backend\PhotoLibraryController;
 use App\Http\Controllers\api\Backend\UserController;
+use App\Http\Controllers\api\Backend\VideoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -22,10 +23,13 @@ Route::prefix('auth')->group(function () {
 
 // admin routes
 Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::get('get-category', [CategoryController::class, 'getCategory']);
+
     Route::resource('pages', PageController::class)->only(['index', 'store']);
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('photos', PhotoLibraryController::class);
+    Route::resource('videos', VideoController::class);
 });
 
 // user routes

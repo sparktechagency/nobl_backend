@@ -138,4 +138,14 @@ class CategoryController extends Controller
             ]);
         }
     }
+
+    public function getCategory(Request $request)
+    {
+        $categories = Category::where('type',$request->type)->get();
+        return response()->json([
+            'status'  => true,
+            'message' => 'Category retreived successfully',
+            'data'    => $categories,
+        ]);
+    }
 }
