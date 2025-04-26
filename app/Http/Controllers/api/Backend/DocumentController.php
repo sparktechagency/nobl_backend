@@ -28,7 +28,7 @@ class DocumentController extends Controller
             $query->where('title', 'LIKE', '%' . $request->search . '%');
         }
 
-        $documents = $query->paginate($request->per_page ?? 10);
+        $documents = $query->latest('id')->paginate($request->per_page ?? 10);
 
         return response()->json([
             'status'  => true,

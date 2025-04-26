@@ -27,7 +27,7 @@ class VideoController extends Controller
             $query->where('title', 'LIKE', '%' . $request->search . '%');
         }
 
-        $videos = $query->paginate($request->per_page ?? 10);
+        $videos = $query->latest('id')->paginate($request->per_page ?? 10);
 
         return response()->json([
             'status'  => true,
@@ -194,5 +194,25 @@ class VideoController extends Controller
                 'data'    => null,
             ]);
         }
+    }
+
+    public function relatedVideos(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'video_id'    => 'required',
+            'category_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => false,
+                'message' => $validator->errors(),
+            ]);
+        }
+        $related_videos = Video::where('category_id', $request->category_id)->where('id', '!=', $request->video_id)->latest('id')->take(10)->get();
+        return response()->json([
+            'status'  => true,
+            'message' => 'Related video retreived successfully',
+            'data'    => $related_videos,
+        ]);
     }
 }

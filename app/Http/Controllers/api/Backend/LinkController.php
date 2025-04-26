@@ -15,7 +15,11 @@ class LinkController extends Controller
      */
     public function index(Request $request)
     {
-        $links = Link::paginate($request->per_page ?? 10);
+        $links = Link::latest('id');
+        if($request->filter){
+          $links=$links->where('link_type', 'like', '%' . $request->filter . '%');
+        }
+        $links=$links->paginate($request->per_page ?? 10);
         return response()->json([
             'status'  => true,
             'message' => 'Links retrieved successfully',
