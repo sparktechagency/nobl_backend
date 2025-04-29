@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use setasign\Fpdi\Fpdi;
 
 class DocumentController extends Controller
 {
@@ -78,6 +79,11 @@ class DocumentController extends Controller
             $request->file->move(public_path('uploads/documents/file'), $final_name);
             $document->file = $final_name;
         }
+        // count page
+        $pdf                  = new Fpdi();
+        $fullPath             = public_path('uploads/documents/file/' . $final_name);
+        $pageCount            = $pdf->setSourceFile($fullPath);
+        $document->no_of_page = $pageCount;
         $document->save();
         return response()->json([
             'status'  => true,
@@ -145,6 +151,12 @@ class DocumentController extends Controller
                 $final_file_name = time() . '.' . $request->file->extension();
                 $request->file->move($file_location, $final_file_name);
                 $document->file = $final_file_name;
+
+                // count page
+                $pdf                  = new Fpdi();
+                $fullPath             = public_path('uploads/documents/file/' . $final_file_name);
+                $pageCount            = $pdf->setSourceFile($fullPath);
+                $document->no_of_page = $pageCount;
             }
             $document->category_id   = $request->category_id;
             $document->title         = $request->title;
