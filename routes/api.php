@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\Backend\AudioController;
 use App\Http\Controllers\api\Backend\CategoryController;
 use App\Http\Controllers\api\Backend\DashboardController;
 use App\Http\Controllers\api\Backend\DocumentController;
@@ -35,8 +36,11 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::resource('categories', CategoryController::class);
     Route::resource('photos', PhotoLibraryController::class);
     Route::resource('videos', VideoController::class);
+    Route::resource('audios', AudioController::class);
     Route::resource('documents', DocumentController::class);
     Route::resource('links', LinkController::class);
+    Route::get('video-comment', [VideoCommentController::class, 'getComment']);
+    Route::delete('video-comment/{id}', [VideoCommentController::class, 'deleteComment']);
 });
 
 // user routes
@@ -45,6 +49,7 @@ Route::middleware(['auth:sanctum', 'user'])->group(function () {
     Route::get('home', HomeController::class);
     Route::get('get-category', [CategoryController::class, 'getCategory']);
     Route::resource('videos', VideoController::class)->only('index');
+    Route::resource('audios', AudioController::class)->only('index');
     Route::resource('photos', PhotoLibraryController::class)->only('index');
     Route::resource('documents', DocumentController::class)->only('index');
     Route::resource('links', LinkController::class)->only('index');
@@ -52,6 +57,7 @@ Route::middleware(['auth:sanctum', 'user'])->group(function () {
     Route::get('video-comment', [VideoCommentController::class, 'getComment']);
     Route::post('video-comment', [VideoCommentController::class, 'storeComment']);
     Route::get('related-videos', [VideoController::class, 'relatedVideos']);
+    Route::get('related-audios', [AudioController::class, 'relatedAudios']);
 });
 
 // app open count

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\api\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Audio;
 use App\Models\Document;
 use App\Models\PhotoLibrary;
 use App\Models\Video;
@@ -27,6 +28,7 @@ class HomeController extends Controller
                     'thumbnail'     => $item->thumbnail,
                     'file'          => $item->file,
                     'video'         => null,
+                    'audio'         => null,
                     'created_at'    => $item->created_at,
                     'category'      => optional($item->category)->name,
                 ];
@@ -45,6 +47,26 @@ class HomeController extends Controller
                     'thumbnail'     => $item->thumbnail,
                     'file'          => null,
                     'video'         => $item->video,
+                    'audio'         => null,
+                    'created_at'    => $item->created_at,
+                    'category'      => optional($item->category)->name,
+                ];
+            });
+
+        // audios collect
+        $audios = Audio::with('category')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id'            => $item->id,
+                    'category_id'   => $item->category_id,
+                    'type'          => 'audio',
+                    'title'         => $item->title,
+                    'document_type' => null,
+                    'thumbnail'     => $item->thumbnail,
+                    'file'          => null,
+                    'video'         => null,
+                    'audio'         => $item->audio,
                     'created_at'    => $item->created_at,
                     'category'      => optional($item->category)->name,
                 ];
@@ -63,6 +85,7 @@ class HomeController extends Controller
                     'thumbnail'     => $item->photo,
                     'file'          => null,
                     'video'         => null,
+                    'audio'         => null,
                     'created_at'    => $item->created_at,
                     'category'      => optional($item->category)->name,
                 ];
@@ -71,6 +94,7 @@ class HomeController extends Controller
         // merge all and latest sorting
         $activities = $documents
             ->merge($videos)
+            ->merge($audios)
             ->merge($photos)
             ->sortByDesc('created_at')
             ->take(20)

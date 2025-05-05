@@ -69,5 +69,27 @@ class CategorySeeder extends Seeder
                 'name' => $dcategory,
             ]);
         }
+        // audio_categories
+        $audio_categories = [
+            'Welcome to NOBL',
+            'Introduction',
+            'Key to success in this industry',
+            'Door approach / Pitch',
+            'Transitioning',
+            'Building Value',
+            'Qualify Questions',
+            'Buying Atmosphere',
+            'Amply Value',
+            'Drop Price / Compare Price',
+            'Closing Lines',
+            'Area Management',
+            'How to use your IPad Resources',
+        ];
+        foreach ($audio_categories as $acategory) {
+            Category::create([
+                'type' => 'Audio Category',
+                'name' => $acategory,
+            ]);
+        }
     }
 }
