@@ -209,7 +209,7 @@ class AudioController extends Controller
                 'message' => $validator->errors(),
             ]);
         }
-        $related_audios = Audio::where('category_id', $request->category_id)->where('id', '!=', $request->audio_id)->latest('id')->take(10)->get();
+        $related_audios = Audio::with('category')->where('category_id', $request->category_id)->where('id', '!=', $request->audio_id)->latest('id')->take(10)->get();
         return response()->json([
             'status'  => true,
             'message' => 'Related audio retreived successfully',

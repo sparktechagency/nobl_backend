@@ -208,7 +208,7 @@ class VideoController extends Controller
                 'message' => $validator->errors(),
             ]);
         }
-        $related_videos = Video::where('category_id', $request->category_id)->where('id', '!=', $request->video_id)->latest('id')->take(10)->get();
+        $related_videos = Video::with('category')->where('category_id', $request->category_id)->where('id', '!=', $request->video_id)->latest('id')->take(10)->get();
         return response()->json([
             'status'  => true,
             'message' => 'Related video retreived successfully',

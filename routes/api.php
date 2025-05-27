@@ -19,6 +19,7 @@ Route::prefix('auth')->group(function () {
     Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('check-token', [AuthController::class, 'validateToken'])->name('validateToken');
         Route::post('change-password', [AuthController::class, 'changePassword']);
         Route::post('update-profile', [AuthController::class, 'updateProfile']);
         Route::post('reset-password', [AuthController::class, 'resetPassword']);

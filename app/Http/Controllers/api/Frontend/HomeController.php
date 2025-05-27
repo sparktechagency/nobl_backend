@@ -27,10 +27,13 @@ class HomeController extends Controller
                     'document_type' => $item->document_type,
                     'thumbnail'     => $item->thumbnail,
                     'file'          => $item->file,
+                    'no_of_page'          => $item->no_of_page,
                     'video'         => null,
                     'audio'         => null,
                     'created_at'    => $item->created_at,
-                    'category'      => optional($item->category)->name,
+                    'category'      => [
+                      'name'=>optional($item->category)->name,
+                    ],
                 ];
             });
 
@@ -46,10 +49,13 @@ class HomeController extends Controller
                     'document_type' => null,
                     'thumbnail'     => $item->thumbnail,
                     'file'          => null,
+                                    'no_of_page'          => null,
                     'video'         => $item->video,
                     'audio'         => null,
                     'created_at'    => $item->created_at,
-                    'category'      => optional($item->category)->name,
+                          'category'      => [
+                      'name'=>optional($item->category)->name,
+                    ],
                 ];
             });
 
@@ -65,10 +71,13 @@ class HomeController extends Controller
                     'document_type' => null,
                     'thumbnail'     => $item->thumbnail,
                     'file'          => null,
+                      'no_of_page'          => null,
                     'video'         => null,
                     'audio'         => $item->audio,
                     'created_at'    => $item->created_at,
-                    'category'      => optional($item->category)->name,
+                     'category'      => [
+                      'name'=>optional($item->category)->name,
+                    ],
                 ];
             });
 
@@ -84,10 +93,13 @@ class HomeController extends Controller
                     'document_type' => null,
                     'thumbnail'     => $item->photo,
                     'file'          => null,
+                      'no_of_page'          => null,
                     'video'         => null,
                     'audio'         => null,
                     'created_at'    => $item->created_at,
-                    'category'      => optional($item->category)->name,
+                      'category'      => [
+                      'name'=>optional($item->category)->name,
+                    ],
                 ];
             });
 

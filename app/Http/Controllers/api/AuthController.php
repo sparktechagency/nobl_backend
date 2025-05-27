@@ -1,14 +1,15 @@
 <?php
 namespace App\Http\Controllers\api;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Mail\OtpMail;
 use App\Models\AppOpenCount;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -30,8 +31,13 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
         if (Auth::attempt($credentials)) {
-            $user  = Auth::user();
-            $token = $user->createToken('nobl_application')->plainTextToken;
+            $user        = Auth::user();
+            $tokenResult = $user->createToken('nobl_application');
+            $token       = $tokenResult->plainTextToken;
+
+            $tokenResult->accessToken->expires_at = now()->addDays(7);
+            $tokenResult->accessToken->save();
+
             return response()->json([
                 'status'  => true,
                 'message' => 'Login successful',
@@ -236,4 +242,38 @@ class AuthController extends Controller
             'data'    => $open,
         ]);
     }
+
+public function validateToken(Request $request)
+{
+    $user = $request->user();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid or missing token.',
+        ], 401);
+    }
+
+    $tokenString = $request->bearerToken();
+    $accessToken = PersonalAccessToken::findToken($tokenString);
+
+    if (!$accessToken) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Token not found.',
+        ], 401);
+    }
+
+    if ($accessToken->expires_at && $accessToken->expires_at->isPast()) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Token expired.',
+        ], 401);
+    }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Token is valid.',
+    ]);
+}
 }
