@@ -56,6 +56,7 @@ class UserController extends Controller
                 'message' => $validator->errors(),
             ]);
         }
+        
         $user = User::create([
             'email'             => $request->email,
             'username'          => $request->user_name,
