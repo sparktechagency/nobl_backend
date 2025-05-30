@@ -53,6 +53,7 @@ class AudioController extends Controller
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|numeric',
             'title'       => 'required|string|max:255',
+            'duration'       => 'required|string|max:255',
             'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'audio'       => 'required|mimes:mp3,mpeg',
         ]);
@@ -65,6 +66,7 @@ class AudioController extends Controller
         $audio              = new Audio();
         $audio->category_id = $request->category_id;
         $audio->title       = $request->title;
+        $audio->duration       = $request->duration;
         if ($request->hasFile('thumbnail')) {
             $final_name = time() . '.' . $request->thumbnail->extension();
             $request->thumbnail->move(public_path('uploads/audios/thumbnail'), $final_name);
@@ -107,6 +109,7 @@ class AudioController extends Controller
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|numeric',
             'title'       => 'required|string|max:255',
+            'duration'       => 'sometimes|string|max:255',
             'thumbnail'   => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'audio'       => 'sometimes|mimes:mp3,mpeg',
         ]);
@@ -144,6 +147,7 @@ class AudioController extends Controller
             }
             $audio->category_id = $request->category_id;
             $audio->title       = $request->title;
+            $audio->duration       = $request->duration;
             $audio->save();
             return response()->json([
                 'status'  => true,

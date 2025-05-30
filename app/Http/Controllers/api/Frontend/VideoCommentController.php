@@ -49,7 +49,7 @@ class VideoCommentController extends Controller
             ]);
         }
 
-        $comments = VideoComment::where('video_id', $request->video_id)->with('user:id,name,photo')->select('id', 'user_id', 'video_id', 'comment', 'created_at')->paginate($request->per_page ?? 10);
+        $comments = VideoComment::where('video_id', $request->video_id)->with('user:id,name,photo')->select('id', 'user_id', 'video_id', 'comment', 'created_at')->latest('id')->paginate($request->per_page ?? 10);
 
         return response()->json([
             'status'  => true,

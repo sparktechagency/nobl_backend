@@ -52,6 +52,7 @@ class VideoController extends Controller
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|numeric',
             'title'       => 'required|string|max:255',
+            'duration'       => 'required|string|max:255',
             'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'video'       => 'required|mimes:mp4,mov,avi,wmv',
         ]);
@@ -64,6 +65,7 @@ class VideoController extends Controller
         $video              = new Video();
         $video->category_id = $request->category_id;
         $video->title       = $request->title;
+        $video->duration       = $request->duration;
         if ($request->hasFile('thumbnail')) {
             $final_name = time() . '.' . $request->thumbnail->extension();
             $request->thumbnail->move(public_path('uploads/videos/thumbnail'), $final_name);
@@ -106,6 +108,7 @@ class VideoController extends Controller
         $validator = Validator::make($request->all(), [
             'category_id' => 'required|numeric',
             'title'       => 'required|string|max:255',
+            'duration'       => 'sometimes|string|max:255',
             'thumbnail'   => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'video'       => 'sometimes|mimes:mp4,mov,avi,wmv',
         ]);
@@ -143,6 +146,7 @@ class VideoController extends Controller
             }
             $video->category_id = $request->category_id;
             $video->title       = $request->title;
+            $video->duration       = $request->duration;
             $video->save();
             return response()->json([
                 'status'  => true,

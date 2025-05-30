@@ -30,6 +30,7 @@ class HomeController extends Controller
                     'no_of_page'          => $item->no_of_page,
                     'video'         => null,
                     'audio'         => null,
+                    'duration'         => null,
                     'created_at'    => $item->created_at,
                     'category'      => [
                       'name'=>optional($item->category)->name,
@@ -52,6 +53,7 @@ class HomeController extends Controller
                                     'no_of_page'          => null,
                     'video'         => $item->video,
                     'audio'         => null,
+                     'duration'         => $item->duration,
                     'created_at'    => $item->created_at,
                           'category'      => [
                       'name'=>optional($item->category)->name,
@@ -74,6 +76,7 @@ class HomeController extends Controller
                       'no_of_page'          => null,
                     'video'         => null,
                     'audio'         => $item->audio,
+                      'duration'         => $item->duration,
                     'created_at'    => $item->created_at,
                      'category'      => [
                       'name'=>optional($item->category)->name,
@@ -96,6 +99,7 @@ class HomeController extends Controller
                       'no_of_page'          => null,
                     'video'         => null,
                     'audio'         => null,
+                      'duration'         => null,
                     'created_at'    => $item->created_at,
                       'category'      => [
                       'name'=>optional($item->category)->name,
