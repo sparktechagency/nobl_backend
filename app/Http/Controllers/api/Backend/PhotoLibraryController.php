@@ -108,6 +108,7 @@ class PhotoLibraryController extends Controller
         }
         try {
             $photo = PhotoLibrary::findOrFail($id);
+                 $photo->category_id = $request->category_id;
             if ($request->hasFile('photo')) {
                 $photo_location = public_path('uploads/photo_library');
                 $old_photo = basename($photo->photo);
