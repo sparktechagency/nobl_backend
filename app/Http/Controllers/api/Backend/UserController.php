@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::where('role', '=', 'USER');
+        $users = User::where('role', '==', 'USER');
         if ($request->has('search')) {
             $users = $users->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('email', 'like', '%' . $request->search . '%')
@@ -56,7 +56,7 @@ class UserController extends Controller
                 'message' => $validator->errors(),
             ]);
         }
-        
+
         $user = User::create([
             'email'             => $request->email,
             'username'          => $request->user_name,
