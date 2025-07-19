@@ -13,21 +13,28 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $users = User::where('role',  'USER');
-        if ($request->has('search')) {
-            $users = $users->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%')
-                ->orWhere('address', 'like', '%' . $request->search . '%');
-        }
-        $users = $users->latest('id')->paginate($request->per_page ?? 10);
-        return response()->json([
-            'status'  => true,
-            'message' => 'User retreived successfully',
-            'data'    => $users,
-        ]);
+   public function index(Request $request)
+{
+    $users = User::where('role', 'USER');
+
+    if ($request->has('search')) {
+        $search = $request->search;
+        $users = $users->where(function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%')
+                  ->orWhere('address', 'like', '%' . $search . '%');
+        });
     }
+
+    $users = $users->latest('id')->paginate($request->per_page ?? 10);
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'User retrieved successfully',
+        'data'    => $users,
+    ]);
+}
+
 
     /**
      * Show the form for creating a new resource.
