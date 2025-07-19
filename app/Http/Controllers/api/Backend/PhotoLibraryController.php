@@ -24,11 +24,11 @@ class PhotoLibraryController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
-        if (! $request->has('category_id')) {
-            $query->inRandomOrder();
-        }
+        // if (! $request->has('category_id')) {
+        //     $query->inRandomOrder();
+        // }
 
-        $photos = $query->paginate($request->per_page ?? 10);
+        $photos = $query->latest('id')->paginate($request->per_page ?? 10);
 
         return response()->json([
             'status'  => true,
